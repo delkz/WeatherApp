@@ -12,11 +12,17 @@
       </div>
       <div class="weather-wrap" v-if="typeof weather.main != 'undefined'">
         <div class="location-box">
-          <div class="location">{{ weather.name }},{{ weather.sys.country }}</div>
+          <div class="location">{{ weather.name }}, {{ weather.sys.country }}</div>
           <div class="date">{{ dateBuilder() }}</div>
         </div>
         <div class="weather-box">
-          <div class="temp">{{ Math.round(weather.main.temp) }}°</div>
+          <div class="temp" v-if="faren">{{ Math.round((weather.main.temp*1.8)+32) }}°F</div>
+          <div class="temp" v-else>{{ Math.round(weather.main.temp) }}°C</div>
+          <label class="switch">
+            <input type="checkbox" v-model="faren">
+            <span class="slider round"></span>
+            <span>Fahrenheit</span>
+          </label>
           <div class="weather">{{ weather.weather[0].main }}</div>
         </div>
       </div>
@@ -33,7 +39,8 @@ export default {
       api_key: '8b660efa87aae4469ac888f7725b36c5',
       url_base : 'http://api.openweathermap.org/data/2.5/',
       query: '',
-      weather: {}
+      weather: {},
+      faren: false
     }
   },
   methods:{
@@ -58,7 +65,7 @@ export default {
       let month = months[d.getMonth()];
       let year = d.getFullYear();
 
-      return `${day},${date} ${month} ${year}`;
+      return `${day}, ${date} ${month} ${year}`;
     }
 
   }
@@ -102,13 +109,12 @@ main{
   outline: none;
   background: none;
   background-color: rgba(255,255,255,0.5);
-  border-radius: 0 16px 0 16px;
+  border-radius: 25px;
   transition: 0.4s;
 }
 .search-box .search-bar:focus{
   box-shadow: 0 0 16px rgba(0,0,0,0.25);
-  background-color: rgba(255,255,255,0.75);
-  border-radius: 0 16px 0 16px;
+  background-color: rgb(255,255,255);
 }
 .location-box .location{
   color: #fff;
@@ -151,4 +157,77 @@ main{
 #app.warm{
   background-image: url('./assets/calor.jpg');
 }
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+.switch > span:nth-child(3) {
+ color: #fff;
+ display: block;
+ margin-left: 3.2em;
+ font-size: 1.3em;
+ margin-top: -.5em;
+}
+.switch {
+ display: block;
+ margin: 1em 25% 2em;
+}
+
 </style>
