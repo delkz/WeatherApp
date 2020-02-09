@@ -1,5 +1,6 @@
 <template>
-  <div id="app" :class="typeof weather.main != 'undefined' && weather.main.temp > 16 ? 'warm' : ''">
+  <div id="app" 
+  :class="[typeof weather.main != 'undefined' && weather.main.temp > 16 ? 'warm' : '',typeof weather.main != 'undefined' && weather.weather[0].main == 'Clouds' ? 'nuvens' : '',typeof weather.main != 'undefined' && weather.weather[0].main == 'Clear' ? 'limpo' : '',,typeof weather.main != 'undefined' && weather.weather[0].main == 'Thunderstorm' ? 'tempestade' : '',typeof weather.main != 'undefined' && weather.weather[0].main == 'Rain' ? 'chuva' : '',typeof weather.main != 'undefined' && weather.main.temp > 30 ? 'hot' : '']">
     <main>
       <div class="search-box">
         <input 
@@ -156,6 +157,21 @@ main{
 
 #app.warm{
   background-image: url('./assets/calor.jpg');
+}
+#app.nuvens{
+  background-image: url('./assets/nuvens.jpg');
+}
+#app.chuva{
+  background-image: url('./assets/chuva.jpg');
+}
+#app.limpo{
+  background-image: url('./assets/limpo.jpg');
+}
+#app.tempestade{
+  background-image: url('./assets/tempestade.jpg');
+}
+#app.hot{
+  background-image: url('./assets/limpo.jpg');
 }
 .switch {
   position: relative;
